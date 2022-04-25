@@ -1,4 +1,5 @@
 import { LoadingOverlay } from '@mantine/core';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { appwrite } from '../stores/global';
@@ -19,5 +20,12 @@ export default function Check() {
       });
   }, [router]);
 
-  return <LoadingOverlay visible></LoadingOverlay>;
+  return (
+    <>
+      <Head>
+        <title>Checking...</title>
+      </Head>
+      <LoadingOverlay visible></LoadingOverlay>
+    </>
+  );
 }
