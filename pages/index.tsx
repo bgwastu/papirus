@@ -94,9 +94,12 @@ export default function Landing() {
     const userStr = localStorage.getItem('user');
     if (userStr) {
       const user = JSON.parse(userStr);
-      router.replace('/' + user.$id);
+      router.replace('/' + user.$id).then(() => {
+        setLoading(false);
+      });
+    } else {
+      setLoading(false);
     }
-    setLoading(false);
   }, [router]);
 
   async function oAuthLogin(provider: string) {
