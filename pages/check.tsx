@@ -16,6 +16,7 @@ export default function Check() {
       })
       .catch((error) => {
         console.log(error);
+        localStorage.removeItem('user');
         router.back();
       });
   }, [router]);

@@ -93,8 +93,7 @@ export default function Landing() {
     // Check if user is already logged in from localStorage
     const userStr = localStorage.getItem('user');
     if (userStr) {
-      const user = JSON.parse(userStr);
-      router.replace('/' + user.$id).then(() => {
+      router.replace('/check').then(() => {
         setLoading(false);
       });
     } else {
