@@ -1,5 +1,9 @@
-h1, h2, h3, h4 {
-  line-height: 1.0rem;
+.content h1,
+h2,
+h3,
+h4 {
+  line-height: 2.5rem;
+  margin: 8px 0 8px 0;
 }
 
 .hljs {
