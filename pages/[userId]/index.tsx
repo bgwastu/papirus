@@ -20,7 +20,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [user, setUser] = useState<any>();
-  const [notes, setNotes] = useState<any[]>([]);
+  const [notes, setNotes] = useState<any[]>();
 
   useEffect(() => {
     const userStr = localStorage.getItem('user');
@@ -76,7 +76,7 @@ export default function Dashboard() {
             </Menu>
           </Group>
           <Input icon={<Search />} placeholder="Search Notes" size="md" />
-          <ListNote notes={notes} />
+          {notes !== undefined ? <ListNote notes={notes} /> : null}
         </Stack>
       </Container>
     </>
