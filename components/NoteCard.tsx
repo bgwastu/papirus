@@ -1,7 +1,7 @@
-import { Button, Group, Paper, Spoiler, Text } from '@mantine/core';
+import { Button, Group, Paper, Space, Spoiler, Text } from '@mantine/core';
+import { formatRelative } from 'date-fns';
 import Link from 'next/link';
 import Highlight from 'react-highlight';
-import { format, formatDistance, formatRelative, subDays } from 'date-fns';
 
 export default function NoteCard({ note }: { note: any }) {
   return (
@@ -15,10 +15,11 @@ export default function NoteCard({ note }: { note: any }) {
         </Link>
       </Group>
 
-      <Spoiler maxHeight={310} hideLabel="Hide" showLabel="Show more">
+      <Spoiler maxHeight={220} hideLabel="Hide" showLabel="Show more">
         <Highlight className="content" innerHTML={true}>
           {note.content}
         </Highlight>
+        <Space h={2} />
       </Spoiler>
     </Paper>
   );
