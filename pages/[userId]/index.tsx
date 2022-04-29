@@ -10,7 +10,6 @@ import {
   Pagination,
   Stack,
 } from '@mantine/core';
-import { usePagination } from '@mantine/hooks';
 import 'highlight.js/styles/github-dark.css';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -34,7 +33,14 @@ export default function Dashboard() {
     setLoading(true);
     const userStr = localStorage.getItem('user');
     if (userStr) {
-      setUser(JSON.parse(userStr));
+      const userObj = JSON.parse(userStr);
+      setUser(userObj);
+
+      // check userId is match user id from user
+      const { userId } = router.query;
+      if (userId !== userObj.$id) {
+        router.push('/');
+      }
     } else {
       router.replace('/');
     }
