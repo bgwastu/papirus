@@ -8,7 +8,7 @@ export default function NoteCard({ note }: { note: any }) {
     <Paper shadow="xs" p="md">
       <Group position="apart">
         <Text color="dimmed">
-          {formatRelative(new Date(note.timestamp * 1000), new Date())}
+          {formatRelative(new Date(note.timestamp), new Date())}
         </Text>
         <Link href={`${window.location.href}/${note.$id}`} passHref>
           <Button variant="default">Detail</Button>

@@ -1,13 +1,16 @@
 import {
   ActionIcon,
   Button,
+  Center,
   Container,
   Group,
   Input,
   LoadingOverlay,
   Menu,
+  Pagination,
   Stack,
 } from '@mantine/core';
+import { usePagination } from '@mantine/hooks';
 import 'highlight.js/styles/github-dark.css';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -16,13 +19,19 @@ import { GridDots, Logout, Note, Search } from 'tabler-icons-react';
 import ListNote from '../../components/ListNote';
 import { appwrite } from '../../stores/global';
 
+const PAGE_LIMIT = 25;
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [user, setUser] = useState<any>();
   const [notes, setNotes] = useState<any[]>();
 
+  // Pagination
+  const [totalPage, setTotalPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
+    setLoading(true);
     const userStr = localStorage.getItem('user');
     if (userStr) {
       setUser(JSON.parse(userStr));
@@ -31,12 +40,23 @@ export default function Dashboard() {
     }
 
     // Get user notes from appwrite
-    appwrite.database.listDocuments('6264e8786fcd928527b6').then((notes) => {
-      console.log(notes);
-      setNotes(notes.documents);
-      setLoading(false);
-    });
-  }, [router]);
+    appwrite.database
+      .listDocuments(
+        '6264e8786fcd928527b6',
+        [],
+        PAGE_LIMIT,
+        PAGE_LIMIT * (currentPage - 1)
+      )
+      .then((res) => {
+        console.log(res);
+
+        // Set totalPage
+        setTotalPage(res.total / PAGE_LIMIT);
+
+        setNotes(res.documents);
+        setLoading(false);
+      });
+  }, [currentPage, router]);
 
   async function logout() {
     const confirmation = confirm('Are you sure you want to logout?');
@@ -77,6 +97,17 @@ export default function Dashboard() {
           </Group>
           <Input icon={<Search />} placeholder="Search Notes" size="md" />
           {notes !== undefined ? <ListNote notes={notes} /> : null}
+          {notes !== undefined || totalPage !== 0 ? (
+            <Center>
+              <Pagination
+                total={totalPage}
+                onChange={(p) => {
+                  setCurrentPage(p);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              />
+            </Center>
+          ) : null}
         </Stack>
       </Container>
     </>
