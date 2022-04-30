@@ -6,13 +6,14 @@ import {
   LoadingOverlay,
   Text,
   Title,
-  useMantineTheme,
+  useMantineTheme
 } from '@mantine/core';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { BrandGithub } from 'tabler-icons-react';
+import useUser from '../hooks/useUser';
 import { appwrite, baseUrl } from '../stores/global';
 
 const useStyles = createStyles((theme) => ({
@@ -88,18 +89,16 @@ export default function Landing() {
   const theme = useMantineTheme();
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const user = useUser();
 
   useEffect(() => {
+    if (!router.isReady) return;
     // Check if user is already logged in from localStorage
-    const userStr = localStorage.getItem('user');
-    if (userStr) {
-      router.replace('/check').then(() => {
-        setLoading(false);
-      });
-    } else {
-      setLoading(false);
+    if (!user) {
+      router.replace('/check');
     }
-  }, [router]);
+    setLoading(false);
+  }, [router, user]);
 
   async function oAuthLogin(provider: string) {
     appwrite.account.createOAuth2Session(provider, baseUrl + '/check');

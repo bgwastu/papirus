@@ -1,7 +1,8 @@
 import {
   Button,
   Center,
-  Container, Input,
+  Container,
+  Input,
   LoadingOverlay,
   Pagination,
   Stack
@@ -11,17 +12,19 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Note, Search } from 'tabler-icons-react';
+import AuthProvider from '../../components/AuthProvider';
 import ListNote from '../../components/ListNote';
 import MenuButton from '../../components/MenuButton';
 import Navbar from '../../components/Navbar';
+import useUser from '../../hooks/useUser';
 import { appwrite } from '../../stores/global';
 
 const PAGE_LIMIT = 25;
 export default function Dashboard() {
   const router = useRouter();
-  const [user, setUser] = useState<any>();
   const [notes, setNotes] = useState<any[]>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [user] = useUser();
 
   // Pagination
   const [totalPage, setTotalPage] = useState(0);
@@ -29,20 +32,6 @@ export default function Dashboard() {
 
   useEffect(() => {
     setLoading(true);
-    const userStr = localStorage.getItem('user');
-    if (userStr) {
-      const userObj = JSON.parse(userStr);
-      setUser(userObj);
-
-      // Push to dashboard if userId not match user id from user
-      const { userId } = router.query;
-      if (userId !== userObj.$id) {
-        router.push('/');
-      }
-    } else {
-      router.replace('/');
-    }
-
     // Get user notes from appwrite
     appwrite.database
       .listDocuments(
@@ -55,6 +44,8 @@ export default function Dashboard() {
         // Set totalPage
         setTotalPage(res.total / PAGE_LIMIT);
         setNotes(res.documents);
+      })
+      .finally(() => {
         setLoading(false);
       });
   }, [currentPage, router]);
@@ -79,7 +70,7 @@ export default function Dashboard() {
   }
 
   return (
-    <>
+    <AuthProvider>
       <Head>
         <title>Papirus</title>
       </Head>
@@ -90,7 +81,7 @@ export default function Dashboard() {
             leading={
               <Button
                 leftIcon={<Note />}
-                onClick={() => router.push(user.$id + '/new')}
+                onClick={() => router.push(user?.$id + '/new')}
               >
                 New Note
               </Button>
@@ -114,6 +105,6 @@ export default function Dashboard() {
           ) : null}
         </Stack>
       </Container>
-    </>
+    </AuthProvider>
   );
 }
