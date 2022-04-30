@@ -1,29 +1,27 @@
 import {
-  ActionIcon,
   Button,
   Center,
-  Container,
-  Group,
-  Input,
+  Container, Input,
   LoadingOverlay,
-  Menu,
   Pagination,
-  Stack,
+  Stack
 } from '@mantine/core';
 import 'highlight.js/styles/github-dark.css';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { GridDots, Logout, Note, Search } from 'tabler-icons-react';
+import { Note, Search } from 'tabler-icons-react';
 import ListNote from '../../components/ListNote';
+import MenuButton from '../../components/MenuButton';
+import Navbar from '../../components/Navbar';
 import { appwrite } from '../../stores/global';
 
 const PAGE_LIMIT = 25;
 export default function Dashboard() {
-  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [user, setUser] = useState<any>();
   const [notes, setNotes] = useState<any[]>();
+  const [loading, setLoading] = useState<boolean>(false);
 
   // Pagination
   const [totalPage, setTotalPage] = useState(0);
@@ -36,7 +34,7 @@ export default function Dashboard() {
       const userObj = JSON.parse(userStr);
       setUser(userObj);
 
-      // check userId is match user id from user
+      // Push to dashboard if userId not match user id from user
       const { userId } = router.query;
       if (userId !== userObj.$id) {
         router.push('/');
@@ -54,26 +52,32 @@ export default function Dashboard() {
         PAGE_LIMIT * (currentPage - 1)
       )
       .then((res) => {
-        console.log(res);
-
         // Set totalPage
         setTotalPage(res.total / PAGE_LIMIT);
-
         setNotes(res.documents);
         setLoading(false);
       });
   }, [currentPage, router]);
 
-  async function logout() {
+  function logout() {
     const confirmation = confirm('Are you sure you want to logout?');
     if (confirmation) {
       setLoading(true);
-      await appwrite.account.deleteSession('current');
-      localStorage.removeItem('user');
-      router.replace('/');
-      setLoading(false);
+      appwrite.account
+        .deleteSession('current')
+        .then(() => {
+          localStorage.removeItem('user');
+          router.replace('/');
+        })
+        .catch((e) => {
+          console.log(e);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }
   }
+
   return (
     <>
       <Head>
@@ -82,25 +86,19 @@ export default function Dashboard() {
       <LoadingOverlay visible={loading} />
       <Container my={20}>
         <Stack>
-          <Group position="apart">
-            <Button leftIcon={<Note />}>New Note</Button>
-            <Menu
-              control={
-                <ActionIcon variant="outline" color="dark" size="lg">
-                  <GridDots />
-                </ActionIcon>
-              }
-            >
-              <Menu.Label>Logged in as {user?.email}</Menu.Label>
-              <Menu.Item
-                color="red"
-                icon={<Logout size={14} />}
-                onClick={logout}
+          <Navbar
+            leading={
+              <Button
+                leftIcon={<Note />}
+                onClick={() => router.push(user.$id + '/new')}
               >
-                Logout
-              </Menu.Item>
-            </Menu>
-          </Group>
+                New Note
+              </Button>
+            }
+            menu={[
+              <MenuButton key="menu" email={user?.email} onLogout={logout} />,
+            ]}
+          />
           <Input icon={<Search />} placeholder="Search Notes" size="md" />
           {notes !== undefined ? <ListNote notes={notes} /> : null}
           {notes !== undefined || totalPage !== 0 ? (
