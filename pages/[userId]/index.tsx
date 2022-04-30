@@ -42,7 +42,7 @@ export default function Dashboard() {
       )
       .then((res) => {
         // Set totalPage
-        setTotalPage(res.total / PAGE_LIMIT);
+        setTotalPage(Math.ceil(res.total / PAGE_LIMIT));
         setNotes(res.documents);
       })
       .finally(() => {
