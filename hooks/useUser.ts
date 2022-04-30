@@ -16,7 +16,11 @@ export default function useUser(): [
   });
 
   useEffect(() => {
-    localStorage.setItem(KEY, JSON.stringify(user));
+    if (user === undefined) {
+      localStorage.removeItem(KEY);
+    } else {
+      localStorage.setItem(KEY, JSON.stringify(user));
+    }
   }, [user]);
 
   return [user, setUser];
