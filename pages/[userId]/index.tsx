@@ -38,7 +38,11 @@ export default function Dashboard() {
         '6264e8786fcd928527b6',
         [],
         PAGE_LIMIT,
-        PAGE_LIMIT * (currentPage - 1)
+        PAGE_LIMIT * (currentPage - 1),
+        undefined,
+        undefined,
+        ['timestamp'],
+        ['DESC']
       )
       .then((res) => {
         // Set totalPage
