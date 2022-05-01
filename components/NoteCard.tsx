@@ -1,7 +1,6 @@
-import { Button, Group, Paper, Space, Spoiler, Text } from '@mantine/core';
-import { formatRelative } from 'date-fns';
+import {Button, Group, Paper, Space, Spoiler, Text} from '@mantine/core';
+import {formatRelative} from 'date-fns';
 import Link from 'next/link';
-import Highlight from 'react-highlight';
 
 export default function NoteCard({ note }: { note: any }) {
   return (
@@ -16,9 +15,10 @@ export default function NoteCard({ note }: { note: any }) {
       </Group>
 
       <Spoiler maxHeight={220} hideLabel="Hide" showLabel="Show more">
-        <Highlight className="content" innerHTML={true}>
-          {note.content}
-        </Highlight>
+        <div
+          className="ProseMirror"
+          dangerouslySetInnerHTML={{ __html: note.content }}
+        />
         <Space h={2} />
       </Spoiler>
     </Paper>

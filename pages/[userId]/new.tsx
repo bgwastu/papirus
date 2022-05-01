@@ -10,6 +10,7 @@ import {
   Text,
 } from '@mantine/core';
 import Document from '@tiptap/extension-document';
+import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -37,6 +38,7 @@ export default function NewNote() {
     autofocus: true,
     extensions: [
       CustomDocument,
+      Link,
       StarterKit.configure({
         document: false,
       }),

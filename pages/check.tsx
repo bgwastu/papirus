@@ -7,7 +7,7 @@ import { appwrite } from '../stores/global';
 
 export default function Check() {
   const router = useRouter();
-  const [_, setUser] = useUser();
+  const [, setUser] = useUser();
 
   useEffect(() => {
     // Get the user form appwrite, save it to local storage then redirect to the dashboard

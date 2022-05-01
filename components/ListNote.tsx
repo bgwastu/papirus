@@ -1,4 +1,4 @@
-import { Center, Grid, Paper, SimpleGrid, Spoiler, Text } from '@mantine/core';
+import {Center, Grid, Text} from '@mantine/core';
 import NoteCard from './NoteCard';
 
 export default function ListNote({ notes }: { notes: any[] }) {
