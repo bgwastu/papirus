@@ -6,7 +6,7 @@ import {
   LoadingOverlay,
   Text,
   Title,
-  useMantineTheme
+  useMantineTheme,
 } from '@mantine/core';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -89,15 +89,18 @@ export default function Landing() {
   const theme = useMantineTheme();
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const user = useUser();
+  const [user] = useUser();
 
   useEffect(() => {
     if (!router.isReady) return;
     // Check if user is already logged in from localStorage
-    if (!user) {
-      router.replace('/check');
+    if (user) {
+      router.replace('/' + user.$id).finally(() => {
+        setLoading(false);
+      });
+    } else {
+      setLoading(false);
     }
-    setLoading(false);
   }, [router, user]);
 
   async function oAuthLogin(provider: string) {
