@@ -5,7 +5,7 @@ import {
   Input,
   LoadingOverlay,
   Pagination,
-  Stack
+  Stack,
 } from '@mantine/core';
 import 'highlight.js/styles/github-dark.css';
 import Head from 'next/head';
@@ -31,6 +31,7 @@ export default function Dashboard() {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
+    if (!user) return;
     setLoading(true);
     // Get user notes from appwrite
     appwrite.database
@@ -47,12 +48,16 @@ export default function Dashboard() {
       .then((res) => {
         // Set totalPage
         setTotalPage(Math.ceil(res.total / PAGE_LIMIT));
-        setNotes(res.documents);
+        // Filter notes based on user id
+        const filteredNotes = res.documents.filter((e) =>
+          e.$read.map((r) => r.includes(user.$id)).includes(true)
+        );
+        setNotes(filteredNotes);
       })
       .finally(() => {
         setLoading(false);
       });
-  }, [currentPage, router]);
+  }, [currentPage, router, user]);
 
   function logout() {
     const confirmation = confirm('Are you sure you want to logout?');
