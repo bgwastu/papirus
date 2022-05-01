@@ -68,12 +68,10 @@ export default function Dashboard() {
         .deleteSession('current')
         .then(() => {
           localStorage.removeItem('user');
-          router.replace('/');
+          router.replace('/').then(() => setLoading(false));
         })
         .catch((e) => {
           console.log(e);
-        })
-        .finally(() => {
           setLoading(false);
         });
     }

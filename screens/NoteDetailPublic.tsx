@@ -1,26 +1,57 @@
-import {ActionIcon, Button, Container, Group, Kbd, Paper, Stack, Text} from '@mantine/core';
-import {formatRelative} from 'date-fns';
+import {
+  ActionIcon,
+  Button,
+  Container,
+  Group,
+  Kbd,
+  LoadingOverlay,
+  Paper,
+  Stack,
+  Text,
+} from '@mantine/core';
+import { formatRelative } from 'date-fns';
 import Head from 'next/head';
 import Image from 'next/image';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import MenuButton from '../components/MenuButton';
 import Navbar from '../components/Navbar';
 import useUser from '../hooks/useUser';
 import Note from '../interfaces/note';
+import { appwrite } from '../stores/global';
 
 export default function NoteDetailOwner({ note }: { note: Note }) {
   const [user] = useUser();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   function getTitle() {
     const doc = new DOMParser().parseFromString(note.content, 'text/html');
     return doc.getElementsByTagName('h1')[0].innerHTML;
+  }
+
+  function logout() {
+    const confirmation = confirm('Are you sure you want to logout?');
+    if (confirmation) {
+      setLoading(true);
+      appwrite.account
+        .deleteSession('current')
+        .then(() => {
+          localStorage.removeItem('user');
+          router.replace('/').then(() => setLoading(false));
+        })
+        .catch((e) => {
+          console.log(e);
+          setLoading(false);
+        });
+    }
   }
   return (
     <>
       <Head>
         <title>{getTitle()}</title>
       </Head>
+      <LoadingOverlay visible={loading} />
       <Container my={20}>
         <Stack>
           <Navbar
@@ -41,7 +72,7 @@ export default function NoteDetailOwner({ note }: { note: Note }) {
             menu={
               <>
                 {user !== undefined ? (
-                  <MenuButton email={user.email} onLogout={() => {}} />
+                  <MenuButton email={user.email} onLogout={logout} />
                 ) : (
                   <Button onClick={() => router.push('/')}>
                     Register, it{"'"}s free
