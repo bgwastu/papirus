@@ -10,7 +10,7 @@ export default function MenuButton(props: Props) {
   return (
     <Menu
       control={
-        <ActionIcon variant="outline" color="dark" size="lg">
+        <ActionIcon variant="default" color="dark" size="lg">
           <GridDots />
         </ActionIcon>
       }

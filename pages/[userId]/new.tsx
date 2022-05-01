@@ -7,7 +7,7 @@ import {
   Paper,
   Popover,
   Stack,
-  Text,
+  Text
 } from '@mantine/core';
 import Document from '@tiptap/extension-document';
 import Link from '@tiptap/extension-link';
@@ -146,7 +146,6 @@ export default function NewNote() {
                 </Popover>
                 <Button
                   key="save"
-                  color="green"
                   leftIcon={<DeviceFloppy />}
                   onClick={save}
                   disabled={editor?.getText().length === 0 ?? false}

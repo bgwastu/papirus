@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Note, Search } from 'tabler-icons-react';
 import AuthProvider from '../../components/AuthProvider';
+import { ColorSchemeToggle } from '../../components/ColorSchemeToggle';
 import ListNote from '../../components/ListNote';
 import MenuButton from '../../components/MenuButton';
 import Navbar from '../../components/Navbar';
@@ -95,9 +96,12 @@ export default function Dashboard() {
                 New Note
               </Button>
             }
-            menu={[
-              <MenuButton key="menu" email={user?.email} onLogout={logout} />,
-            ]}
+            menu={
+              <>
+                <MenuButton email={user?.email} onLogout={logout} />
+                <ColorSchemeToggle />
+              </>
+            }
           />
           <Input icon={<Search />} placeholder="Search Notes" size="md" />
           {notes !== undefined ? <ListNote notes={notes} /> : null}
