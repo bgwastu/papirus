@@ -101,7 +101,7 @@ export default function Dashboard() {
           />
           <Input icon={<Search />} placeholder="Search Notes" size="md" />
           {notes !== undefined ? <ListNote notes={notes} /> : null}
-          {notes !== undefined || totalPage !== 0 ? (
+          {notes !== undefined && totalPage > 1 ? (
             <Center>
               <Pagination
                 total={totalPage}
