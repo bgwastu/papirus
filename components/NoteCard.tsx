@@ -1,14 +1,19 @@
-import {Button, Group, Paper, Space, Spoiler, Text} from '@mantine/core';
-import {formatRelative} from 'date-fns';
+import { Button, Group, Kbd, Paper, Space, Spoiler, Text } from '@mantine/core';
+import { formatRelative } from 'date-fns';
 import Link from 'next/link';
+import Note from '../interfaces/note';
 
-export default function NoteCard({ note }: { note: any }) {
+export default function NoteCard({ note }: { note: Note }) {
+  const isPublic = note.$read.map((n) => n.includes('role:all')).includes(true);
   return (
     <Paper shadow="xs" p="md">
       <Group position="apart">
-        <Text color="dimmed">
-          {formatRelative(new Date(note.timestamp), new Date())}
-        </Text>
+        <Group>
+          <Text color="dimmed">
+            {formatRelative(new Date(note.timestamp), new Date())}
+          </Text>
+          <Kbd>{isPublic ? 'Public' : 'Private'}</Kbd>
+        </Group>
         <Link href={`${window.location.href}/${note.$id}`} passHref>
           <Button variant="default">Detail</Button>
         </Link>

@@ -1,7 +1,8 @@
 import {Center, Grid, Text} from '@mantine/core';
+import Note from '../interfaces/note';
 import NoteCard from './NoteCard';
 
-export default function ListNote({ notes }: { notes: any[] }) {
+export default function ListNote({ notes }: { notes: Note[] }) {
   if (notes.length === 0) {
     return (
       <Center>
