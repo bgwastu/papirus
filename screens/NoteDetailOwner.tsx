@@ -250,7 +250,7 @@ export default function NoteDetailOwner({
               </Tooltip>
             </Group>
           </Group>
-          <Paper shadow="xs" px="md" pb="md">
+          <Paper shadow="xs" px="md" pb="md" withBorder>
             <EditorContent editor={editor} />
             <Text color="dimmed" hidden={isContentEmpty()} ref={editRef}>
               <Kbd>⏎</Kbd> to add note content

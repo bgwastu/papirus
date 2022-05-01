@@ -155,7 +155,7 @@ export default function NewNote() {
               </>
             }
           />
-          <Paper shadow="xs" px="md" pb="md" style={{ minHeight: '300px' }}>
+          <Paper shadow="xs" px="md" pb="md" style={{ minHeight: '300px' }} withBorder>
             <EditorContent editor={editor} />
             <Text color="dimmed" hidden={isContentEmpty()}>
               <Kbd>⏎</Kbd> to add note content

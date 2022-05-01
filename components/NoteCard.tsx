@@ -6,7 +6,7 @@ import Note from '../interfaces/note';
 export default function NoteCard({ note }: { note: Note }) {
   const isPublic = note.$read.map((n) => n.includes('role:all')).includes(true);
   return (
-    <Paper shadow="xs" p="md">
+    <Paper shadow="xs" p="md" withBorder>
       <Group position="apart">
         <Group>
           <Text color="dimmed">

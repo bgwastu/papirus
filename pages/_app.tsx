@@ -33,6 +33,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
         theme={{
           primaryColor: colorScheme === 'dark' ? 'yellow' : 'dark',
           colorScheme,
+          white: '#F8F9FA',
         }}
         withNormalizeCSS
         withGlobalStyles

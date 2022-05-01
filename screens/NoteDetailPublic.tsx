@@ -61,7 +61,7 @@ export default function NoteDetailOwner({ note }: { note: Note }) {
               <Kbd>Public</Kbd>
             </Group>
           </Group>
-          <Paper shadow="xs" px="md" pb="md">
+          <Paper shadow="xs" px="md" pb="md" withBorder>
             <div
               className="ProseMirror"
               dangerouslySetInnerHTML={{ __html: note.content }}
