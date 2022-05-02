@@ -85,7 +85,12 @@ export default function NewNote() {
           userId: user?.$id,
         }),
       })
-        .then((_) => {
+        .then((res) => {
+          // If unauthorized, then logout
+          if (res.status === 401) {
+            setUser(undefined);
+            router.replace('/');
+          }
           router.replace('/' + user?.$id);
         })
         .finally(() => {
