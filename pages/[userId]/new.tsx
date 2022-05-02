@@ -7,7 +7,7 @@ import {
   Paper,
   Popover,
   Stack,
-  Text
+  Text,
 } from '@mantine/core';
 import Document from '@tiptap/extension-document';
 import Link from '@tiptap/extension-link';
@@ -31,7 +31,7 @@ const CustomDocument = Document.extend({
 export default function NewNote() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const [user] = useUser();
+  const [user, setUser] = useUser();
   const [openedInfo, setOpenedInfo] = useState(false);
 
   const editor = useEditor({
@@ -68,10 +68,11 @@ export default function NewNote() {
   }
 
   async function save() {
-    if (editor!.getText().length > 0) {
+    if (!editor) return;
+    if (editor.getText().length > 0) {
       setLoading(true);
       const jwt = await getJWT();
-      const content = editor!.getHTML();
+      const content = editor.getHTML();
 
       fetch('/api/notes', {
         method: 'POST',
@@ -81,6 +82,7 @@ export default function NewNote() {
         },
         body: JSON.stringify({
           content,
+          text: editor.getText(),
           timestamp: Date.now(),
           userId: user?.$id,
         }),
@@ -160,7 +162,13 @@ export default function NewNote() {
               </>
             }
           />
-          <Paper shadow="xs" px="md" pb="md" style={{ minHeight: '300px' }} withBorder>
+          <Paper
+            shadow="xs"
+            px="md"
+            pb="md"
+            style={{ minHeight: '300px' }}
+            withBorder
+          >
             <EditorContent editor={editor} />
             <Text color="dimmed" hidden={isContentEmpty()}>
               <Kbd>⏎</Kbd> to add note content

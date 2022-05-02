@@ -9,22 +9,27 @@ import {
   Stack,
   Switch,
   Text,
-  Tooltip
+  Tooltip,
 } from '@mantine/core';
 import Document from '@tiptap/extension-document';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
-import {EditorContent, useEditor} from '@tiptap/react';
+import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import {formatRelative} from 'date-fns';
+import { formatRelative } from 'date-fns';
 import Head from 'next/head';
-import {useRouter} from 'next/router';
-import {useEffect, useRef, useState} from 'react';
-import {ArrowLeft, DeviceFloppy, RotateClockwise, Trash} from 'tabler-icons-react';
+import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
+import {
+  ArrowLeft,
+  DeviceFloppy,
+  RotateClockwise,
+  Trash,
+} from 'tabler-icons-react';
 import Navbar from '../components/Navbar';
 import Note from '../interfaces/note';
 import User from '../interfaces/user';
-import {appwrite, Server} from '../stores/global';
+import { appwrite, Server } from '../stores/global';
 
 const CustomDocument = Document.extend({
   content: 'heading block*',
@@ -118,6 +123,7 @@ export default function NoteDetailOwner({
     appwrite.database
       .updateDocument(Server.collectionID, note.$id, {
         content: editor?.getHTML(),
+        text: editor?.getText(),
         timestamp: Date.now(),
       })
       .then((res: any) => setNote(res))

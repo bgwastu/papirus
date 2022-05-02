@@ -17,8 +17,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     // data
-    const { content, timestamp } = req.body;
-    if (!content || !timestamp) {
+    const { content, text, timestamp } = req.body;
+    if (!content || !timestamp || !text) {
       res.status(400).send('Bad Request');
       return;
     }
@@ -37,6 +37,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     appwrite.database
       .createDocument(Server.collectionID, 'unique()', {
         content: cleanContent,
+        text,
         timestamp,
       })
       .then((data) => res.json(data))
