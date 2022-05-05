@@ -19,7 +19,7 @@ export default function NoteCard({ note }: { note: Note }) {
         </Link>
       </Group>
 
-      <Spoiler maxHeight={220} hideLabel="Hide" showLabel="Show more">
+      <Spoiler maxHeight={300} hideLabel="Hide" showLabel="Show more">
         <div
           className="ProseMirror"
           dangerouslySetInnerHTML={{ __html: note.content }}
