@@ -9,6 +9,7 @@ import {
   Stack,
   Text,
 } from '@mantine/core';
+import { useHotkeys } from '@mantine/hooks';
 import Document from '@tiptap/extension-document';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -33,6 +34,15 @@ export default function NewNote() {
   const router = useRouter();
   const [user, setUser] = useUser();
   const [openedInfo, setOpenedInfo] = useState(false);
+
+  useHotkeys([
+    [
+      'ctrl+s',
+      () => {
+        save();
+      },
+    ],
+  ]);
 
   const editor = useEditor({
     autofocus: true,
@@ -157,7 +167,7 @@ export default function NewNote() {
                   onClick={save}
                   disabled={editor?.getText().length === 0 ?? false}
                 >
-                  Save
+                  Save (ctrl+s)
                 </Button>
               </>
             }

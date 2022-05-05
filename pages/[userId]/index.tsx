@@ -3,17 +3,19 @@ import {
   Button,
   Center,
   Container,
+  Group,
   Input,
+  Kbd,
   LoadingOverlay,
   Pagination,
   Stack,
 } from '@mantine/core';
-import { useDebouncedValue } from '@mantine/hooks';
+import { useDebouncedValue, useHotkeys } from '@mantine/hooks';
 import { Query } from 'appwrite';
 import 'highlight.js/styles/github-dark.css';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Note as NoteIcon, Search, X } from 'tabler-icons-react';
 import AuthProvider from '../../components/AuthProvider';
 import { ColorSchemeToggle } from '../../components/ColorSchemeToggle';
@@ -38,6 +40,22 @@ export default function Dashboard() {
   // Search
   const [query, setQuery] = useState('');
   const [debouncedQuery] = useDebouncedValue(query, 400);
+  const searchRef = useRef<HTMLInputElement>(null);
+
+  useHotkeys([
+    [
+      'ctrl+k',
+      () => {
+        searchRef?.current!.focus();
+      },
+    ],
+    [
+      'alt+n',
+      () => {
+        router.push(user?.$id + '/new');
+      },
+    ],
+  ]);
 
   var checkHTML = function (html: string) {
     var doc = document.createElement('div');
@@ -134,7 +152,7 @@ export default function Dashboard() {
                 leftIcon={<NoteIcon />}
                 onClick={() => router.push(user?.$id + '/new')}
               >
-                New Note
+                New Note (alt+n)
               </Button>
             }
             menu={
@@ -150,12 +168,32 @@ export default function Dashboard() {
             size="md"
             onChange={(e: any) => setQuery(e.target.value)}
             value={query}
+            rightSectionWidth={130}
+            ref={searchRef}
             rightSection={
-              query !== '' ? (
-                <ActionIcon onClick={() => setQuery('')} color="gray" size="sm">
+              <Group position="left" spacing="xs">
+                <ActionIcon
+                  onClick={() => setQuery('')}
+                  color="gray"
+                  size="sm"
+                  style={{
+                    visibility: query === '' ? 'hidden' : 'visible',
+                  }}
+                >
                   <X />
                 </ActionIcon>
-              ) : null
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    cursor: 'default',
+                  }}
+                >
+                  <Kbd>Ctrl</Kbd>
+                  <span style={{ margin: '0 5px' }}>+</span>
+                  <Kbd>K</Kbd>
+                </div>
+              </Group>
             }
           />
           {notes !== undefined ? <ListNote notes={notes} /> : null}

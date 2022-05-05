@@ -11,6 +11,7 @@ import {
   Text,
   Tooltip,
 } from '@mantine/core';
+import { useHotkeys } from '@mantine/hooks';
 import Document from '@tiptap/extension-document';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -50,6 +51,19 @@ export default function NoteDetailOwner({
   const [note, setNote] = useState(noteInit);
   const editRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+
+  useHotkeys([
+    [
+      'ctrl+s',
+      () => {
+        // if there is any changes
+        if (editor?.getText().length !== 0) {
+          update();
+        }
+      },
+    ],
+  ]);
+
   const editor = useEditor({
     autofocus: true,
     extensions: [
@@ -221,7 +235,7 @@ export default function NoteDetailOwner({
                       onClick={update}
                       disabled={editor?.getText().length === 0 ?? false}
                     >
-                      Update
+                      Update (crtl+s)
                     </Button>
                   ) : null
                 ) : null}
