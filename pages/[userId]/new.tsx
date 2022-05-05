@@ -103,7 +103,10 @@ export default function NewNote() {
             setUser(undefined);
             router.replace('/');
           }
-          router.replace('/' + user?.$id);
+
+          res.json().then((data) => {
+            router.replace('/' + user?.$id + '/' + data.$id);
+          });
         })
         .finally(() => {
           setLoading(false);
