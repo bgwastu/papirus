@@ -14,7 +14,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { BrandGithub } from 'tabler-icons-react';
 import useUser from '../hooks/useUser';
-import { appwrite, baseUrl } from '../stores/global';
+import { appwrite } from '../stores/global';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -104,6 +104,10 @@ export default function Landing() {
   }, [router, user]);
 
   async function oAuthLogin(provider: string) {
+    // check if window is available
+    if (typeof window === 'undefined') return;
+
+    const baseUrl = window.location.origin;
     appwrite.account.createOAuth2Session(provider, baseUrl + '/check');
   }
 
