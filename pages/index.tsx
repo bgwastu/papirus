@@ -108,7 +108,7 @@ export default function Landing() {
     if (typeof window === 'undefined') return;
 
     const baseUrl = window.location.origin;
-    appwrite.account.createOAuth2Session(provider, baseUrl + '/check');
+    appwrite.account.createOAuth2Session(provider, baseUrl + '/check', baseUrl);
   }
 
   return (
