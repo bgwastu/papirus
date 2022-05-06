@@ -11,4 +11,4 @@ export const appwrite = new Appwrite()
   .setEndpoint(Server.endpoint!)
   .setProject(Server.project!);
 
-export const baseUrl = process.env.NEXT_BASE_URL || 'http://localhost:3000';
+export const baseUrl = process.env.VERCEL_URL || 'http://localhost:3000';
