@@ -24,7 +24,7 @@ import MenuButton from '../../components/MenuButton';
 import Navbar from '../../components/Navbar';
 import useUser from '../../hooks/useUser';
 import Note from '../../interfaces/note';
-import { appwrite } from '../../stores/global';
+import { appwrite, Server } from '../../stores/global';
 
 const PAGE_LIMIT = 25;
 export default function Dashboard() {
@@ -90,7 +90,7 @@ export default function Dashboard() {
 
     appwrite.database
       .listDocuments(
-        '6264e8786fcd928527b6',
+        Server.collectionID,
         searchQuery,
         PAGE_LIMIT,
         PAGE_LIMIT * (currentPage - 1),
