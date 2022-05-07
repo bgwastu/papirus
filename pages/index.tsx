@@ -1,12 +1,14 @@
 import {
+  Anchor,
   Button,
+  Center,
   Container,
   createStyles,
   Group,
   LoadingOverlay,
   Text,
   Title,
-  useMantineTheme
+  useMantineTheme,
 } from '@mantine/core';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -119,11 +121,7 @@ export default function Landing() {
             />
           </Group>
           <Title className={classes.title}>
-            Write & share your{' '}
-            <Text component="span" color={theme.colors.yellow[5]} inherit>
-              snippets
-            </Text>{' '}
-            never been easier
+            Write & share your snippets never been easier
           </Title>
 
           <Container p={0} size={600}>
@@ -154,6 +152,17 @@ export default function Landing() {
             </Button>
           </div>
         </div>
+        <Center mt="xl">
+          <Text color="dimmed">
+            Built with Next {'&'} Appwrite.{' '}
+            <Anchor
+              href="https://github.com/bagaswastu/papirus"
+              target="_blank"
+            >
+              Source code
+            </Anchor>
+          </Text>
+        </Center>
       </Container>
     </>
   );

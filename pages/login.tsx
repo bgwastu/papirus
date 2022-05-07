@@ -78,11 +78,11 @@ export default function Login() {
         </Center>
         <Title
           align="center"
-          sx={(theme) => ({
+          sx={() => ({
             fontWeight: 900,
           })}
         >
-          Welcome back!
+          Welcome back
         </Title>
         <Text color="dimmed" size="sm" align="center" mt={5}>
           Do not have an account yet?{' '}

@@ -110,8 +110,7 @@ export default function Register() {
           Sign up to Papirus
         </Title>
         <Text color="dimmed" size="sm" align="center" mt={5}>
-          Already have an account?{' '}
-          <Link href="/login">Sign in</Link>
+          Already have an account? <Link href="/login">Sign in</Link>
         </Text>
 
         <Paper withBorder shadow="md" p={30} mt={30} radius="md">
@@ -119,12 +118,14 @@ export default function Register() {
             <TextInput
               label="Name"
               placeholder="Your Name"
+              mt="md"
               required
               {...form.getInputProps('name')}
             />
             <TextInput
               label="Email"
               placeholder="you@email.com"
+              mt="md"
               required
               {...form.getInputProps('email')}
             />
