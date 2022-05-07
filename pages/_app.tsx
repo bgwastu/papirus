@@ -3,6 +3,7 @@ import {
   ColorSchemeProvider,
   MantineProvider,
 } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
 import { getCookie, setCookies } from 'cookies-next';
 import { GetServerSidePropsContext } from 'next';
 import type { AppProps } from 'next/app';
@@ -38,7 +39,9 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
         withNormalizeCSS
         withGlobalStyles
       >
-        <Component {...pageProps} />
+        <NotificationsProvider>
+          <Component {...pageProps} />
+        </NotificationsProvider>
       </MantineProvider>
     </ColorSchemeProvider>
   );

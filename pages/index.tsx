@@ -6,15 +6,14 @@ import {
   LoadingOverlay,
   Text,
   Title,
-  useMantineTheme,
+  useMantineTheme
 } from '@mantine/core';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { BrandGithub } from 'tabler-icons-react';
+import { Login, UserPlus } from 'tabler-icons-react';
 import useUser from '../hooks/useUser';
-import { appwrite } from '../stores/global';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -103,19 +102,6 @@ export default function Landing() {
     }
   }, [router, user]);
 
-  async function oAuthLogin(provider: string) {
-    // check if window is available
-    if (typeof window === 'undefined') return;
-
-    const baseUrl = window.location.origin;
-    appwrite.account.createOAuth2Session(
-      provider,
-      baseUrl + '/check',
-      baseUrl,
-      ['user:email', 'read:user']
-    );
-  }
-
   return (
     <>
       <Head>
@@ -152,10 +138,19 @@ export default function Landing() {
             <Button
               className={classes.control}
               size="lg"
-              leftIcon={<BrandGithub />}
-              onClick={() => oAuthLogin('github')}
+              variant="outline"
+              leftIcon={<Login />}
+              onClick={() => router.push('/login')}
             >
-              Login with GitHub
+              Login
+            </Button>
+            <Button
+              className={classes.control}
+              size="lg"
+              leftIcon={<UserPlus />}
+              onClick={() => router.push('/register')}
+            >
+              Register
             </Button>
           </div>
         </div>
