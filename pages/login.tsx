@@ -95,6 +95,7 @@ export default function Login() {
               label="Email"
               placeholder="you@email.com"
               required
+              autoFocus
               {...form.getInputProps('email')}
             />
             <PasswordInput

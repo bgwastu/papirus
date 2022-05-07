@@ -120,6 +120,7 @@ export default function Register() {
               placeholder="Your Name"
               mt="md"
               required
+              autoFocus
               {...form.getInputProps('name')}
             />
             <TextInput
