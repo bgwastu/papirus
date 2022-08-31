@@ -1,16 +1,11 @@
 <div align="center">
   <img alt="papirus logo" width=60 src="https://user-images.githubusercontent.com/67826350/167264314-37a40867-3921-4762-a4aa-56268fd9d4cc.png">
   <h1 align="center">Papirus</h1>
-
+  <p><b>[UNMAINTAINED]</b></p>
 </div>
 
 <img align="center" alt="papirus dashboard" src="https://user-images.githubusercontent.com/67826350/167264339-c9a91e51-9a26-4943-9abc-16dcff49206c.jpg">
 <p align="center">Simple but powerful note-taking app, built for people who likes simplicity.</p>
-<p>
-  <div align="center">
-    <a href="https://papirus.wastu.dev">Demo</a>
-  </div>
-</P>
 <p align="center">
   <img alt="GitHub issues" src="https://img.shields.io/github/issues/bagaswastu/papirus">
   <img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/bagaswastu/papirus?include_prereleases">
